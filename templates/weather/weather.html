@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.5s ease;
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            margin-bottom: 10px;
+        }
+        
+        .weather-details {
+            margin-bottom: 20px;
+        }
+        
+        .forecast {
+            margin-top: 20px;
+        }
+        
+        .forecast-day {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .sunny { background-color: #ffe153; }
+        .cloudy { background-color: #c0c0c0; }
+        .rainy { background-color: #87ceeb; }
+        .snowy { background-color: #ffffff; }
+    </style>
+</head>
+<body class="{% if weather_data.current.temp_c >= 30 %}sunny{% elif weather_data.current.temp_c < 30 and weather_data.current.temp_c >= 20 %}cloudy{% elif weather_data.current.temp_c < 20 and weather_data.current.temp_c >= 10 %}rainy{% else %}snowy{% endif %}">
+    <div class="container">
+        <h2>Weather Report for {{ weather_data.location.name }}</h2>
+        <div class="weather-details">
+            <p>Temperature: {{ weather_data.current.temp_c }} °C</p>
+            <p>Condition: {{ weather_data.current.condition.text }}</p>
+            <p>Humidity: {{ weather_data.current.humidity }}%</p>
+            <p>Precipitation: {{ weather_data.current.precip_mm }} mm</p>
+            <p>Wind Speed: {{ weather_data.current.wind_kph }} kph</p>
+        </div>
+        <div class="forecast">
+            <h3>Weekly Forecast</h3>
+            {% for day in weather_data.forecast.forecastday %}
+                <div class="forecast-day">
+                    <div>{{ day.day_name }}</div>
+                    <div>{{ day.day.condition.text }}</div>
+                    <div>{{ day.day.avgtemp_c }} °C</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
