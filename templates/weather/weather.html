@@ -4,41 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Report</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f0f0f0;
+            background-size: cover;
+            background-position: center;
         }
-        
+
         .container {
             max-width: 600px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background for better text readability */
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: background-color 0.5s ease;
         }
-        
+
         h2 {
             text-align: center;
             margin-bottom: 20px;
         }
-        
+
         p {
             margin-bottom: 10px;
         }
-        
+
         .weather-details {
             margin-bottom: 20px;
         }
-        
+
         .forecast {
             margin-top: 20px;
         }
-        
+
         .forecast-day {
             display: flex;
             justify-content: space-between;
@@ -48,10 +51,11 @@
             border-radius: 4px;
         }
 
-        .sunny { background-color: #ffe153; }
-        .cloudy { background-color: #c0c0c0; }
-        .rainy { background-color: #87ceeb; }
-        .snowy { background-color: #ffffff; }
+        /* Background images for different weather conditions */
+        .sunny { background-image: url('https://img.freepik.com/free-vector/sky-background-video-conferencing_23-2148639325.jpg'); } 
+        .cloudy { background-image: url('https://t4.ftcdn.net/jpg/04/61/23/23/360_F_461232389_XCYvca9n9P437nm3FrCsEIapG4SrhufP.jpg'); } 
+        .rainy { background-image: url('https://static.vecteezy.com/system/resources/thumbnails/015/412/592/small/rain-on-city-background-rainy-day-urban-landscape-in-rainy-weather-illustration-in-flat-style-vector.jpg'); } 
+        .snowy { background-image: url('https://t3.ftcdn.net/jpg/04/68/54/62/360_F_468546206_X6dNISIAC97hGOVtUf3fJpigLi2XGnjF.jpg'); } 
     </style>
 </head>
 <body class="{% if weather_data.current.temp_c >= 30 %}sunny{% elif weather_data.current.temp_c < 30 and weather_data.current.temp_c >= 20 %}cloudy{% elif weather_data.current.temp_c < 20 and weather_data.current.temp_c >= 10 %}rainy{% else %}snowy{% endif %}">
@@ -68,7 +72,7 @@
             <h3>Weekly Forecast</h3>
             {% for day in weather_data.forecast.forecastday %}
                 <div class="forecast-day">
-                    <div>{{ day.day_name }}</div>
+                    <div>{{ day.date | date:"l" }}</div>
                     <div>{{ day.day.condition.text }}</div>
                     <div>{{ day.day.avgtemp_c }} °C</div>
                 </div>
